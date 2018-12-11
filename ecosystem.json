@@ -1,0 +1,29 @@
+{
+    "apps": [
+        {
+            "name": "Ice",
+            "script": "server.js",
+            "env": {
+                "COMMON_VARIABLE": "true"
+            },
+            "env_production": {
+                "NODE_ENV": "production"
+            }
+        }
+    ],
+    "deploy": {
+        "production": {
+            "user": "root",
+            "host": ["116.62.64.158"],
+            "port": "22",
+            "ref": "origin/master",
+            "repo": "git@gitee.com:aichihua/ice.git",
+            "path": "/home/ice",
+            "ssh_options": "StrictHostKeyChecking=no",
+            "pre-deploy-local": "echo 'Deploy Done!'",
+            "env": {
+                "NODE_ENV": "production"
+            }
+        }
+    }
+}
