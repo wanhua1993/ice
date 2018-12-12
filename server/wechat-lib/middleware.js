@@ -16,7 +16,6 @@ exports.wechatMiddle = (opts, reply) => {
         const sha = crypto.createHash('sha1');
         sha.update(str);
         const sign = sha.digest('hex');
-
         if (ctx.method == 'GET') {
             if (sign == signature) {
                 ctx.body = echostr;

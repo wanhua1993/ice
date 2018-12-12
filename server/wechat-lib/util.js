@@ -1,5 +1,7 @@
 const xml2js = require('xml2js');
 const template = require('./tpl');
+const crypto = require('crypto');
+
 exports.parseXML = async(xml) => {
     return new Promise((reslove, reject) => {
         xml2js.parseString(xml, {
@@ -64,4 +66,55 @@ exports.tpl = (content, message) => {
         fromUserName: message.ToUserName
     });
     return template.compiled(info);
+}
+
+function createNonce() {
+    return Math.random().toString(36).substr(2, 15);
+}
+
+function createTimestamp() {
+    return parseInt(new Date().getTime() / 1000, 0) + '';
+}
+
+function raw(args) {
+    let str = '';
+    let newArgs = {};
+
+    let keys = Object.keys(args);
+    keys = keys.sort();
+
+    keys.forEach((key) => {
+        newArgs[key.toLowerCase()] = args[key];
+    });
+
+    for (let k in newArgs) {
+        str += '&' + k + '=' + newArgs[k];
+    }
+
+    return str.substr(1);
+}
+
+function signIt(nonce, ticket, timestamp, url) {
+    const ret = {
+        jsapi_ticket: ticket,
+        nonceStr: nonce,
+        timestamp,
+        url
+    }
+
+    const string = raw(ret);
+    const sha = crypto.createHash('sha1');
+    sha.update(string);
+    const sign = sha.digest('hex');
+    return sign;
+}
+exports.sign = (ticket, url) => {
+    const nonce = createNonce();
+    const timestamp = createTimestamp();
+    const signature = signIt(nonce, ticket, timestamp, url);
+    return {
+        noncestr: nonce,
+        timestamp,
+        signature
+    }
 }

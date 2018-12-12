@@ -1,6 +1,14 @@
+const { menu } = require('./menu');
 exports.reply = async(ctx, next) => {
     const message = ctx.weixin;
     console.log(message);
+    let mp = require('../wechat');
+    let client = mp.getWechat();
+
+    // const data = await client.handle('uploadMaterial', 'image', resolve(__dirname, '../../ice.jpg'));
+
+    // console.log(data);
+
     if (message.MsgType == 'text') {
         ctx.body = message.Content;
     } else if (message.MsgType == 'image') {
@@ -30,6 +38,8 @@ exports.reply = async(ctx, next) => {
             console.log('取关了');
         } else if (message.Event == 'Location') {
             console.log('地址了');
+        } else if (message.Event == 'view') {
+            ctx.body = message.EventKey + message.MenuId;
         }
     }
 }
