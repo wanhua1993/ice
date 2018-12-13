@@ -9,5 +9,6 @@ exports.config = {
         appSecret: '8092e4665bfd81bc5962a1f1fc4c61ef',
         token: 'wanhua'
     },
-    db: 'mongodb://116.62.64.158:27017/local'
+    db: 'mongodb://116.62.64.158:27017/local',
+    SITE_ROOT_URL: 'http://aichi.free.idcfengye.com',
 }

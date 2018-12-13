@@ -1,4 +1,4 @@
-const { getWechat } = require('../weChat');
+const { getWechat, getOAuth } = require('../weChat');
 
 const client = getWechat();
 
@@ -12,4 +12,17 @@ exports.getSignatureAsync = async(url) => {
     params.appId = client.appID;
 
     return params;
+}
+
+exports.getAuthorizeURL = async(...args) => {
+    const oauth = getOAuth();
+    return oauth.getAuthorizeURL(...args);
+}
+
+exports.getUserByCode = async(code) => {
+    const oauth = getOAuth();
+    const data = await oauth.fetchAccessToken(code);
+    console.log(data);
+    const user = await oauth.getUserInfo(data.access_token, data.openid);
+    return user;
 }

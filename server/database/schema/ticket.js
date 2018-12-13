@@ -41,7 +41,7 @@ TicketSchema.statics = {
             ticket.ticket = data.ticket;
             ticket.expires_in = data.expires_in;
         } else {
-            ticket = new ticket({
+            ticket = new Ticket({
                 name: 'ticket',
                 ticket: data.ticket,
                 expires_in: data.expires_in

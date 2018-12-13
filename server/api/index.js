@@ -1,7 +1,11 @@
 const {
-    getSignatureAsync
+    getSignatureAsync,
+    getAuthorizeURL,
+    getUserByCode
 } = require('./wechat');
 
 module.exports = {
-    getSignatureAsync
+    getSignatureAsync,
+    getAuthorizeURL,
+    getUserByCode
 }
